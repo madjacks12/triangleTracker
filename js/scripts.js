@@ -1,23 +1,57 @@
-
-//Front end calculations
 $(document).ready(function() {
-  $("#triangleSideLengths").submit(function(event) {
-    event.preventDefault();
-    var sideOne  = parseInt($("#sideOne").val());
-    var sideTwo  = parseInt($("#sideTwo").val());
-    var sideThree  = parseInt($("#sideThree").val());
+  //Backend logic
+
+  function isScalene(side1Input, side2Input, side3Input) {
     // debugger;
-    if ((sideOne > sideTwo + sideThree) || (sideTwo > sideOne + sideThree) || (sideThree > sideOne + sideTwo)) {
+    if (side1Input !== side2Input && side2Input !== side3Input) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function isEquilateral(side1Input, side2Input, side3Input) {
+    if (side1Input === side2Input && side2Input === side3Input) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function isIsosceles(side1Input, side2Input, side3Input) {
+    if ((side1Input === side2Input) || (side2Input === side3Input) || (side1Input === side3Input)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function isNotTriangle(input1, input2, input3) {
+    if ((input1 > input2 + input3) || (input2 > input1 + input3) || (input3 > input1 + input2)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //Front end calculations
+  $("#triangleSideLengths").submit(function(event) {
+    var sideOneInput = parseInt($("#sideOne").val());
+    var sideTwoInput = parseInt($("#sideTwo").val());
+    var sideTwoInput = parseInt($("#sideTwo").val());
+    var sideThreeInput = parseInt($("#sideThree").val());
+
+    event.preventDefault();
+    if (isNotTriangle(sideOneInput, sideTwoInput, sideThreeInput)) {
       $("#formOutput").text("NOT a triangle: The sum of the lengths of any two sides of a triangle is less than or equal to the length of the third side.");
-      // debugger;
-    } else if ((sideOne === sideTwo) && (sideTwo === sideThree)) {
+    } else if (isEquilateral(sideOneInput, sideTwoInput, sideThreeInput)) {
       $("#formOutput").text("Equilateral: All sides are equal.");
-      // debugger;
-    } else if ((sideOne === sideTwo) || (sideTwo === sideThree) || (sideOne === sideThree)) {
+    } else if (isIsosceles(sideOneInput, sideTwoInput, sideThreeInput)) {
       $("#formOutput").text("Isosceles: Exactly 2 sides are equal.");
-      // debugger;
-    } else if ((sideOne !== sideTwo) && (sideTwo !== sideThree)) {
+    } else if (isScalene(sideOneInput, sideTwoInput, sideThreeInput)) {
       $("#formOutput").text("Scalene: No sides are equal.");
+    } else {
+      console.log("else");
     }
   });
-})
+});
